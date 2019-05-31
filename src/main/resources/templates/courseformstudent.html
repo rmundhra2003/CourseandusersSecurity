@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <title>SpringBoot Lesson 10</title>
+    <th:block th:insert="base :: header"></th:block>
+</head>
+<body>
+<div th:replace="base :: nav"></div>
+<form action="#"
+      th:action="@{/process}"
+      th:object="${course}"
+      method="POST">
+    <input type="hidden" th:field="*{id}" />
+    <div sec:authorize="hasAuthority('ADMIN')">
+        Title: <input type="text" th:field="*{title}" />
+        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span> <br/>
+
+        Instructor:
+        <select name="instructor" id="instructor" class="custom-select" th:field="*{instructor}">
+            <option value="">Select Instructor</option>
+            <option th:each="instruct : ${instructors}"
+                    th:value="${instruct.id}"
+                    th:text="${instruct.name}"/>
+        </select><br/>
+
+        Description: <textarea rows="5" th:field="*{description}" />
+        <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span> <br/>
+        Credit: <input type="text" th:field="*{credit}" />
+        <span th:if="${#fields.hasErrors('credit')}" th:errors="*{credit}"></span> <br/>
+        <br/>
+    </div>
+    <input type="submit" value="Submit" />
+</form>
+</body>
+</html>

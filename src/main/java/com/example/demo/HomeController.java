@@ -7,11 +7,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 @Controller
 public class HomeController {
     @Autowired
-    private UserService userService;
+    UserService userService;
+    @Autowired
+    RoleRepository roleRepository;
 
     @GetMapping("/register")
     public String showRegistrationPage(Model model) {
@@ -26,7 +31,14 @@ public class HomeController {
             return "registration";
         }
         else {
-            userService.saveUser(user);
+            //If user status is instructor select "ADMIN" role
+            if(user.getStatus().equalsIgnoreCase("instructor")) {
+                System.out.println("Setting admin priveleges");
+                userService.saveAdmin(user);
+            } else {
+                System.out.println("user role is"+user.getStatus());
+                userService.saveUser(user);
+            }
             model.addAttribute("message", "User Account Successfully Created");
         }
         return "index";

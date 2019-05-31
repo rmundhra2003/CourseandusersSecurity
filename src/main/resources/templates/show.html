@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <title>Course and Instructors </title>
+<th:block th:insert="base :: header"></th:block>
+</head>
+<body>
+
+<div th:replace="base :: nav"></div>
+Title: <span th:text="${course.title}"></span> <br/>
+Instructor: <span th:text="${course.instructor.name}"></span> <br/>
+Description: <p th:text="${course.description}"></p> <br/>
+Credit: <span th:text="${course.credit}"></span> <br/>
+<!-- Add logic to delete from the database only if admin mode -->
+<div sec:authorize="hasAuthority('ADMIN')">
+<a th:href="@{/delete/{id}(id=${course.id})}">Delete this course</a>
+</div>
+</body>
+</html>

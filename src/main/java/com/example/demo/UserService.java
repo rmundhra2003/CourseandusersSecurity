@@ -40,10 +40,16 @@ public class UserService {
     }
 
     public void saveAdmin(User user) {
+        System.out.println("Setting admin role");
         user.setRoles(Arrays.asList(roleRepository.findByRole("ADMIN")));
         user.setEnabled(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
+//    public void updateCourseUser(User user) {
+//        User u = userRepository.findByUsername(user.getUsername());
+//        u.setCourse(user.getCourses());
+//        //userRepository.save(u);
+//    }
 
 }

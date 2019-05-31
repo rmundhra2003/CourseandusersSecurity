@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <title>SpringBoot Lesson 10</title>
+    <th:block th:insert="base :: header"></th:block>
+</head>
+<body>
+<div th:replace="base :: nav"></div>
+<form action="#"
+      th:action="@{/processInstructor}"
+      th:object="${instructor}"
+      method="POST">
+
+    <input type="hidden" th:field="*{id}" />
+    <div sec:authorize="hasAuthority('ADMIN')">
+        Name: <input type="text" th:field="*{name}" />
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span> <br/>
+    </div>
+    <input type="submit" value="Submit" />
+</form>
+</body>
+</html>
